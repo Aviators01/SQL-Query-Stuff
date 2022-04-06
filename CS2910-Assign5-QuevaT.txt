@@ -1,0 +1,40 @@
+Timothy Queva
+CS2910 Lab5
+Feb. 26, 2021
+
+This is to answer the Lab 5 questions from a database found at:
+http://www.semwebtech.org/sqlfrontend/
+
+Schema for Mondial database is found at:
+https://www.dbis.informatik.uni-goettingen.de/Mondial/mondial-RS.pdf
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Questions:
+1)
+select avg(elevation) from lake where type='caldera' and elevation is not null;
+
+2)
+select name, elevation from lake where elevation>(select avg(elevation) from lake where type='caldera' and elevation is not null);
+
+3)
+Select name,independence,area,gdp from country,economy,politics where code=Economy.country and code=Politics.country and gdp>5000 and area>400000 and independence > to_date('12-31-1950','MM-DD-YYYY');
+
+4)
+Select name,population,lake,river from city,located where (lake='Caspian Sea' or river='Rhein') and city.name=city;
+
+5)
+select name,"Total # of airports" from country inner join (select country,count(*) as "Total # of airports" from airport group by country having count(*)>5) on code=country order by name asc;
+
+6)
+select name,province,continent from city,encompasses where city.country=encompasses.country and continent='North America';
+
+7)
+select * from (select code from country where population>10000000 union
+select country from economy where inflation>10) natural join country;
+
+8)
+select type,avg(depth) from lake where depth between 100 and 200 and depth is not null and type is not null group by type;
+
+#This is wrong because we're only calculating the average depth on lakes whose depth is between 100 and 200. Rather, we want to calculate
+the average depth and then select the groups whose average depth is between 100 and 200.
